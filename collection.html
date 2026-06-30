@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Seforim — Ohr Hanachal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Frank+Ruhl+Libre:wght@500;700;900&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="announce">Now <strong>direct from the publisher</strong> &nbsp;·&nbsp; Free US shipping over $75</div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><svg class="crown" viewBox="0 0 64 42" fill="currentColor"><path d="M3 36 7 13 20 25 32 5 44 25 57 13 61 36Z"/><rect x="3" y="36" width="58" height="5"/><circle cx="7" cy="12" r="3.4"/><circle cx="32" cy="4.5" r="3.6"/><circle cx="57" cy="12" r="3.4"/></svg><span class="name"><b>Ohr Hanachal</b><span>Breslev · Est. בס״ד</span></span></a>
+    <nav><ul class="menu">
+      <li><a href="collection.html">All Seforim</a></li>
+      <li><a href="collection.html">Sifrei Rabbeinu</a></li>
+      <li><a href="collection.html">Sifrei R' Nossen</a></li>
+      <li><a href="collection.html">Sets</a></li>
+      <li><a href="collection.html">Pocket &amp; Leather</a></li>
+      <li><a href="wholesale.html">Wholesale</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul></nav>
+    <div class="nav-actions">
+      <button class="iconbtn" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <button class="iconbtn" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+      <button class="iconbtn" aria-label="Cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" id="cartCount">0</span></button>
+      <button class="iconbtn hamburger" aria-label="Menu" onclick="document.querySelector('.menu').classList.toggle('open')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="collection.html">Seforim</a> &nbsp;/&nbsp; All Seforim</div>
+    <span class="kicker">The Full Catalog</span>
+    <h1>All Seforim</h1>
+    <p>Every Ohr Hanachal title, in every binding we make — full size, pocket, and leather. Filter by author, format, or price to find exactly the sefer you're after.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="shop">
+    <aside class="filters">
+      <div class="fgroup"><h4>Search</h4>
+        <input type="search" id="q" placeholder="Search seforim…" style="width:100%;padding:10px 12px;border:1px solid var(--line);background:#fff;font-family:var(--ui);font-size:.86rem" oninput="render()">
+      </div>
+      <div class="fgroup"><h4>Author</h4>
+        <label><input type="checkbox" class="f-author" value="Nachman" checked> R' Nachman of Breslev</label>
+        <label><input type="checkbox" class="f-author" value="Nossen" checked> R' Nossen of Breslev</label>
+        <label><input type="checkbox" class="f-author" value="Anash" checked> Sifrei Anash</label>
+      </div>
+      <div class="fgroup"><h4>Format</h4>
+        <label><input type="checkbox" class="f-format" value="Regular"> Regular size</label>
+        <label><input type="checkbox" class="f-format" value="Pocket"> Pocket</label>
+        <label><input type="checkbox" class="f-format" value="Leather"> Leather bound</label>
+        <label><input type="checkbox" class="f-format" value="Set"> Set / bundle</label>
+      </div>
+      <div class="fgroup"><h4>Price (from)</h4>
+        <label><input type="radio" name="price" class="f-price" value="any" checked> Any price</label>
+        <label><input type="radio" name="price" class="f-price" value="0-5"> Under $5</label>
+        <label><input type="radio" name="price" class="f-price" value="5-15"> $5 – $15</label>
+        <label><input type="radio" name="price" class="f-price" value="15-40"> $15 – $40</label>
+        <label><input type="radio" name="price" class="f-price" value="40-999"> $40+</label>
+      </div>
+      <div class="fgroup"><h4>Availability</h4>
+        <label><input type="checkbox" id="inStock"> In stock only</label>
+      </div>
+    </aside>
+
+    <div>
+      <div class="chips" id="chips">
+        <button class="chip is-active" data-series="all">All</button>
+        <button class="chip" data-series="Nachman">Rabbeinu</button>
+        <button class="chip" data-series="Nossen">R' Nossen</button>
+        <button class="chip" data-series="Anash">Anash</button>
+        <button class="chip" data-series="Set">Sets</button>
+      </div>
+      <div class="toolbar">
+        <span class="count" id="count"></span>
+        <select id="sort" onchange="render()">
+          <option value="featured">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="az">A → Z</option>
+        </select>
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <p id="empty" style="display:none;text-align:center;color:var(--ink-soft);padding:50px 0">No seforim match those filters.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="grid-f">
+      <div><a class="brand" href="index.html"><svg class="crown" viewBox="0 0 64 42" fill="currentColor" style="width:30px"><path d="M3 36 7 13 20 25 32 5 44 25 57 13 61 36Z"/><rect x="3" y="36" width="58" height="5"/><circle cx="7" cy="12" r="3.4"/><circle cx="32" cy="4.5" r="3.6"/><circle cx="57" cy="12" r="3.4"/></svg><span class="name"><b>Ohr Hanachal</b><span>Breslev · Est. בס״ד</span></span></a><p class="fnote">Authentic Breslev seforim in lashon kodesh — printed, bound, and shipped direct from the publisher's own press.</p></div>
+      <div><h4>Shop</h4><ul><li><a href="collection.html">All Seforim</a></li><li><a href="collection.html">Sifrei Rabbeinu</a></li><li><a href="collection.html">Sifrei R' Nossen</a></li><li><a href="collection.html">Sets</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Track an Order</a></li><li><a href="#">Bulk &amp; Wholesale</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h4>House</h4><ul><li><a href="index.html#house">Our Story</a></li><li><a href="#">Editions &amp; Quality</a></li><li><a href="#">Special Bindings</a></li></ul></div>
+    </div>
+    <div class="fbar"><span>© 2026 Ohr Hanachal Press · All rights reserved</span><span>Direct from the publisher · Secure checkout</span></div>
+  </div>
+</footer>
+
+<script>
+  const CDN = "https://cdn.shopify.com/s/files/1/0785/4895/9454/files/";
+  // Real active catalog from the Shopify export, grouped by sefer.
+  const PRODUCTS = [
+    { t:"Likutei Moharan", he:"ליקוטי מוהר״ן", author:"Nachman", from:8.00, formats:["Regular","Pocket","Leather","Set"], img:"CaptureOneCatalog6708copy2_2.png?v=1782640555", feat:1 },
+    { t:"Likutei Halachos", he:"ליקוטי הלכות", author:"Nossen", from:89.99, formats:["Regular","Set"], img:"LikuteiHalachos-OhrHanachal.jpg?v=1782640549", feat:1 },
+    { t:"Likutei Tefilos", he:"ליקוטי תפילות", author:"Nossen", from:12.99, formats:["Regular","Pocket","Leather","Set"], img:"CaptureOneCatalog6707copy2.png?v=1782640561", feat:1 },
+    { t:"Likutei Eitzos", he:"ליקוטי עצות", author:"Nossen", from:6.99, formats:["Regular","Pocket","Leather"], img:"CaptureOneCatalog6702copy2.png?v=1782640562" },
+    { t:"Sipurei Maasiyos", he:"סיפורי מעשיות", author:"Nachman", from:3.00, formats:["Regular","Pocket"], img:"CaptureOneCatalog6704copy2.png?v=1782640557", feat:1 },
+    { t:"Sichos Haran", he:"שיחות הר״ן", author:"Nachman", from:4.00, formats:["Regular","Pocket","Leather"], img:"Seforim-15.png?v=1782640552" },
+    { t:"Chayei Moharan", he:"חיי מוהר״ן", author:"Nachman", from:6.99, formats:["Regular","Pocket","Leather"], img:"CaptureOneCatalog6705copy.png?v=1782640561" },
+    { t:"Sefer Hamidos", he:"ספר המידות", author:"Nachman", from:3.00, formats:["Regular","Pocket","Leather"], img:"CaptureOneCatalog6703copy2_3.png?v=1782640563" },
+    { t:"Alim LeTrufah", he:"עלים לתרופה", author:"Nossen", from:5.00, formats:["Regular","Pocket","Leather","Set"], img:"CaptureOneCatalog6706copy2.png?v=1782640562" },
+    { t:"Hishtapchus & Meshivas Nefesh", he:"השתפכות הנפש ומשיבת נפש", author:"Nossen", from:6.99, formats:["Regular","Pocket","Leather"], img:"CaptureOneCatalog6701copy2.png?v=1782640556" },
+    { t:"Kitzur Likutey Moharan", he:"קיצור ליקוטי מוהר״ן", author:"Nachman", from:15.99, formats:["Regular"], img:"Kitzur_Likutey_Moharan_Ohr_Hanachal.jpg?v=1782640557", badge:"Only 2 left" },
+    { t:"Kochvei Ohr", he:"כוכבי אור", author:"Anash", from:15.99, formats:["Regular"], img:"KochveiOhr-OhrHanachal-Medium.jpg?v=1782640559" },
+    { t:"Shemos HaTzadikim", he:"שמות הצדיקים", author:"Anash", from:2.00, formats:["Pocket","Leather"], img:"GG9A6618.jpg?v=1782640579" },
+    { t:"Set Sifrei Breslev", he:"סט ספרי ברסלב", author:"Set", from:39.99, formats:["Regular","Pocket","Leather","Set"], img:"Set_Sifrei_Breslev_-_Ohr_Hanachal.jpg?v=1782640550", note:"Full hardcover set sold out — pocket sets in stock" },
+  ];
+
+  let activeSeries = "all";
+  const grid = document.getElementById('grid');
+  const $ = s => document.querySelector(s);
+
+  document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', function(){
+    document.querySelectorAll('.chip').forEach(x => x.classList.remove('is-active'));
+    this.classList.add('is-active');
+    activeSeries = this.dataset.series;
+    render();
+  }));
+  document.querySelectorAll('.f-author,.f-format,.f-price,#inStock').forEach(el => el.addEventListener('change', render));
+
+  function render(){
+    const q = $('#q').value.trim().toLowerCase();
+    const authors = [...document.querySelectorAll('.f-author:checked')].map(e=>e.value);
+    const formats = [...document.querySelectorAll('.f-format:checked')].map(e=>e.value);
+    const price = $('.f-price:checked').value;
+    const inStock = $('#inStock').checked;
+    const sort = $('#sort').value;
+
+    let list = PRODUCTS.filter(p => {
+      if (activeSeries !== "all" && p.author !== activeSeries) return false;
+      if (!authors.includes(p.author)) return false;
+      if (formats.length && !formats.some(f => p.formats.includes(f))) return false;
+      if (q && !(p.t.toLowerCase().includes(q) || p.he.includes(q))) return false;
+      if (inStock && p.note && p.note.includes("sold out") && p.from >= 100) return false;
+      if (price !== "any"){ const [lo,hi] = price.split('-').map(Number); if (p.from < lo || p.from > hi) return false; }
+      return true;
+    });
+
+    if (sort === "low") list.sort((a,b)=>a.from-b.from);
+    else if (sort === "high") list.sort((a,b)=>b.from-a.from);
+    else if (sort === "az") list.sort((a,b)=>a.t.localeCompare(b.t));
+    else list.sort((a,b)=>(b.feat||0)-(a.feat||0));
+
+    const authorLabel = { Nachman:"R' Nachman", Nossen:"R' Nossen", Anash:"Sifrei Anash", Set:"Complete shelf" };
+    grid.innerHTML = list.map(p => {
+      const multi = p.formats.length > 1 || p.t.startsWith("Set") ? `<span class="meta">${p.formats.join(' · ')}</span>` : '';
+      const price = (p.formats.length>1 ? "from " : "") + "$" + p.from.toFixed(2);
+      const tag = p.badge ? `<span class="tag">${p.badge}</span>` : (p.feat ? `<span class="tag tag--gold">Bestseller</span>` : '');
+      return `<article class="card">${tag}
+        <div class="media"><img src="${CDN}${p.img}&width=600" alt="${p.t}" loading="lazy"></div>
+        <div class="body">
+          <span class="author">${authorLabel[p.author]}</span>
+          <h3><a href="product.html">${p.t}</a></h3>
+          <span class="he-ttl">${p.he}</span>
+          ${multi}
+          ${p.note ? `<span class="meta" style="color:var(--gold-deep)">${p.note}</span>` : ''}
+          <div class="foot"><span class="price">${price}</span><button class="add" onclick="addToCart()">Add +</button></div>
+        </div></article>`;
+    }).join('');
+
+    $('#count').innerHTML = `Showing <strong>${list.length}</strong> of ${PRODUCTS.length} titles`;
+    $('#empty').style.display = list.length ? 'none' : 'block';
+  }
+
+  const _p = new URLSearchParams(location.search);
+  if (_p.get('q')){
+    const term = _p.get('q');
+    document.getElementById('q').value = term;
+    document.querySelector('.page-head .kicker').textContent = 'Search';
+    document.querySelector('.page-head h1').textContent = 'Search results';
+    document.querySelector('.page-head p').innerHTML = 'Showing matches for &ldquo;<strong>' + term.replace(/</g,'&lt;') + '</strong>&rdquo;. <a class="link-gold" href="collection.html" style="font-size:.8rem">Clear search</a>';
+  }
+  render();
+</script>
+<script src="cart.js"></script>
+</body>
+</html>

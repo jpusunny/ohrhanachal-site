@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohr Hanachal — Wireframes</title>
+<style>
+  :root{ --b:#c9ced6; --bd:#9aa3b0; --fill:#eef1f4; --fill2:#e2e6eb; --ink:#3a4150; --acc:#5566aa; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:'Inter',system-ui,sans-serif; background:#f4f6f8; color:var(--ink); padding:32px 16px 64px; }
+  .doc{ max-width:1080px; margin:0 auto; }
+  .doc > h1{ font-size:1.5rem; margin:0 0 4px; }
+  .doc > .sub{ color:#76808f; margin:0 0 28px; font-size:.92rem; }
+  .legend{ display:flex; gap:18px; flex-wrap:wrap; font-size:.78rem; color:#76808f; margin-bottom:28px; }
+  .legend b{ color:var(--ink); }
+  .screen{ background:#fff; border:1px solid var(--b); border-radius:10px; overflow:hidden; margin-bottom:40px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+  .screen-label{ background:var(--acc); color:#fff; font-size:.78rem; font-weight:600; padding:8px 16px; letter-spacing:.04em; display:flex; justify-content:space-between; }
+  .screen-label span{ opacity:.8; font-weight:400; }
+  .pad{ padding:18px; }
+  .box{ border:1px dashed var(--bd); background:var(--fill); border-radius:6px; display:flex; align-items:center; justify-content:center; text-align:center; color:#6b7280; font-size:.8rem; padding:14px; min-height:40px; }
+  .box.solid{ border-style:solid; background:var(--fill2); }
+  .box.tall{ min-height:120px; }
+  .row{ display:flex; gap:12px; }
+  .row > *{ flex:1; }
+  .grid4{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .stack{ display:flex; flex-direction:column; gap:12px; }
+  .bar{ height:46px; }
+  .ph{ background:repeating-linear-gradient(45deg,#e6eaef,#e6eaef 8px,#eef1f4 8px,#eef1f4 16px); }
+  .annot{ font-size:.72rem; color:var(--acc); font-weight:600; margin:0 0 6px; text-transform:uppercase; letter-spacing:.06em; }
+  .cap{ font-size:.72rem; color:#8a94a3; margin-top:6px; }
+  .pill{ display:inline-block; border:1px solid var(--bd); border-radius:20px; padding:4px 12px; font-size:.72rem; color:#6b7280; margin:2px; }
+  .cover-ph{ aspect-ratio:3/4; border:1px solid var(--bd); border-radius:4px; background:var(--fill2); display:grid; place-items:center; color:#8a94a3; font-size:.7rem; }
+  .note{ font-size:.74rem; color:#76808f; background:#fbfcfd; border-left:3px solid var(--acc); padding:8px 12px; margin:10px 0 0; border-radius:0 4px 4px 0; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>Ohr Hanachal — Wireframes</h1>
+  <p class="sub">Low-fidelity structure for the three core templates. English-primary UI · Hebrew (lashon kodesh) book titles · direct-from-publisher positioning.</p>
+  <div class="legend">
+    <span><b>Dashed box</b> = content region</span>
+    <span><b>Solid box</b> = interactive control</span>
+    <span><b>Hatched</b> = image / cover slot</span>
+    <span><b>Blue label</b> = annotation</span>
+  </div>
+
+  <!-- ============ HOMEPAGE ============ -->
+  <div class="screen">
+    <div class="screen-label">1 · HOMEPAGE <span>/index</span></div>
+    <div class="pad stack">
+      <div class="box solid" style="min-height:26px;background:#3a4150;color:#fff;border:none">Announcement bar — "Direct from the publisher · Free shipping over $75"</div>
+      <div class="box solid bar">
+        <div class="row" style="width:100%;align-items:center">
+          <div style="text-align:left">◆ Logo · Ohr Hanachal</div>
+          <div style="flex:2;color:#8a94a3">Nav: All Seforim · Sifrei Rabbeinu · Sifrei R'Nossen · Sets · Pocket/Leather · About</div>
+          <div style="text-align:right">🔍 👤 🛒</div>
+        </div>
+      </div>
+      <p class="annot">Hero — brand statement + dual CTA</p>
+      <div class="row">
+        <div class="box tall stack" style="align-items:flex-start;text-align:left">
+          <div class="box" style="width:70%">H1: "The teachings of Rabbeinu — now direct"</div>
+          <div class="box" style="width:90%">Sub-paragraph (the reseller→direct story)</div>
+          <div class="row" style="width:60%"><div class="box solid">Shop All</div><div class="box solid">Bestsellers</div></div>
+          <div class="cap">Trust stats: 40+ titles · Lashon Kodesh · Direct pricing</div>
+        </div>
+        <div class="box tall ph">3 stacked sefer covers (hero image)</div>
+      </div>
+      <p class="annot">Trust strip — 4 value props</p>
+      <div class="grid4"><div class="box">✓ Authentic</div><div class="box">✓ Publisher price</div><div class="box">✓ Fast shipping</div><div class="box">✓ Every format</div></div>
+      <p class="annot">Browse by series — collection tiles</p>
+      <div class="grid3"><div class="box tall">Sifrei Rabbeinu</div><div class="box tall">Sifrei R' Nossen</div><div class="box tall">Sets</div><div class="box tall">Pocket</div><div class="box tall">Leather</div><div class="box tall">Zmanim</div></div>
+      <p class="annot">Bestselling seforim — product grid (4-up)</p>
+      <div class="grid4">
+        <div class="stack"><div class="cover-ph">cover</div><div class="box">Title · price · +</div></div>
+        <div class="stack"><div class="cover-ph">cover</div><div class="box">Title · price · +</div></div>
+        <div class="stack"><div class="cover-ph">cover</div><div class="box">Title · price · +</div></div>
+        <div class="stack"><div class="cover-ph">cover</div><div class="box">Title · price · +</div></div>
+      </div>
+      <p class="annot">Featured set — promo banner (2-col)</p>
+      <div class="row"><div class="box tall stack"><div class="box">"Complete Breslev set" · $100 · CTA</div></div><div class="box tall ph">set of covers</div></div>
+      <p class="annot">About the house — story band</p>
+      <div class="row"><div class="box tall">Publisher story + Hebrew pasuk quote + CTA</div><div class="box tall solid">Stat block (2×2)</div></div>
+      <p class="annot">Newsletter</p>
+      <div class="box solid">Email input + Subscribe</div>
+      <p class="annot">Footer — 4 columns</p>
+      <div class="grid4"><div class="box tall">Brand + blurb</div><div class="box tall">Shop links</div><div class="box tall">Help links</div><div class="box tall">House links</div></div>
+    </div>
+  </div>
+
+  <!-- ============ COLLECTION ============ -->
+  <div class="screen">
+    <div class="screen-label">2 · COLLECTION / CATEGORY <span>/collection</span></div>
+    <div class="pad stack">
+      <div class="box solid bar">Header (same as homepage)</div>
+      <div class="box" style="text-align:left">Breadcrumb: Home / Seforim / All Seforim · &nbsp; H1 + intro paragraph</div>
+      <div class="box" style="justify-content:flex-start;gap:6px"><span class="pill">All</span><span class="pill">Rabbeinu</span><span class="pill">R'Nossen</span><span class="pill">Sets</span><span class="pill">Pocket</span><span class="pill">Leather</span> <span style="margin-left:auto" class="cap">Sort ▼ · 16 of 40+</span></div>
+      <div class="row">
+        <div style="flex:0 0 220px" class="stack">
+          <p class="annot">Filter rail (sticky)</p>
+          <div class="box tall stack" style="align-items:flex-start"><div>☐ Author</div><div>☐ Format</div><div>○ Price</div><div>☐ Availability</div></div>
+        </div>
+        <div style="flex:1">
+          <p class="annot">Product grid (4-up, responsive → 2-up → 1-up)</p>
+          <div class="grid4">
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+            <div class="stack"><div class="cover-ph">cover</div><div class="box">card</div></div>
+          </div>
+          <div class="box solid" style="margin-top:12px;width:40%;margin-left:auto;margin-right:auto">Load more</div>
+        </div>
+      </div>
+      <div class="box solid" style="min-height:70px">Footer</div>
+    </div>
+  </div>
+
+  <!-- ============ PRODUCT ============ -->
+  <div class="screen">
+    <div class="screen-label">3 · PRODUCT DETAIL <span>/product</span></div>
+    <div class="pad stack">
+      <div class="box solid bar">Header (same as homepage)</div>
+      <div class="box" style="text-align:left">Breadcrumb: Home / Sifrei R'Nossen / Likutei Halachos</div>
+      <div class="row">
+        <div class="stack">
+          <p class="annot">Gallery (sticky)</p>
+          <div class="cover-ph" style="min-height:260px">Main cover image</div>
+          <div class="row"><div class="cover-ph">thumb</div><div class="cover-ph">thumb</div><div class="cover-ph">thumb</div></div>
+        </div>
+        <div class="stack" style="align-items:flex-start">
+          <p class="annot">Buy box</p>
+          <div class="box" style="width:100%">Author eyebrow</div>
+          <div class="box" style="width:90%">H1 title (English) + Hebrew title</div>
+          <div class="box" style="width:50%">★★★★★ rating · reviews</div>
+          <div class="box" style="width:100%">Short description</div>
+          <div class="box" style="width:60%">Price · was-price · save badge</div>
+          <div class="box solid" style="width:100%">Edition selector: Full / Pocket / Single</div>
+          <div class="box solid" style="width:100%">Binding selector: Hardcover / Leather</div>
+          <div class="row" style="width:100%"><div class="box solid" style="flex:0 0 110px">Qty −/+</div><div class="box solid">Add to Cart</div></div>
+          <div class="box solid" style="width:100%">Buy It Now</div>
+          <div class="cap">Shipping note — free, ships direct in 1–2 days</div>
+          <div class="box" style="width:100%">Details list (author, publisher, language, size, binding, series)</div>
+        </div>
+      </div>
+      <p class="annot">Related — "Pairs well on the shelf" (4-up)</p>
+      <div class="grid4"><div class="cover-ph">cover</div><div class="cover-ph">cover</div><div class="cover-ph">cover</div><div class="cover-ph">cover</div></div>
+      <div class="box solid" style="min-height:70px">Footer</div>
+    </div>
+  </div>
+
+  <div class="note">Not shown but planned for build-out: Cart drawer, Checkout, Search results, Account/Orders, and a Bulk/Wholesale inquiry page (publishers commonly sell sets to shuls &amp; mosdos). Flag any you want wireframed next.</div>
+</div>
+</body>
+</html>
