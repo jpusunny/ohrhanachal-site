@@ -102,6 +102,47 @@ export async function fetchProduct(handle: string): Promise<ProductDetail | null
   return body.product as ProductDetail;
 }
 
+export type StorefrontOrder = {
+  orderNo: string;
+  status: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
+  paymentPref: string;
+  customerName: string;
+  customerEmail: string;
+  shipping: { street: string; street2: string | null; city: string; state: string; zip: string; country: string };
+  customerNote: string | null;
+  placedAt: string;
+  paidAt: string | null;
+  shippedAt: string | null;
+  deliveredAt: string | null;
+  cancelledAt: string | null;
+  subtotalCents: number;
+  shippingCents: number;
+  totalCents: number;
+  trackingCarrier: string | null;
+  trackingNumber: string | null;
+  lines: {
+    id: string;
+    title: string;
+    variantName: string;
+    sku: string;
+    handle: string;
+    image: string | null;
+    quantity: number;
+    unitPriceCents: number;
+    lineTotalCents: number;
+  }[];
+  events: { kind: string; body: string | null; createdAt: string }[];
+};
+
+export async function fetchOrder(orderNo: string, email: string): Promise<StorefrontOrder | null> {
+  const url = `${BASE}/api/storefront/orders/${encodeURIComponent(orderNo)}?email=${encodeURIComponent(email)}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`order ${res.status}`);
+  const body = await res.json();
+  return body.order as StorefrontOrder;
+}
+
 export function money(cents: number): string {
   return "$" + (cents / 100).toFixed(2);
 }
