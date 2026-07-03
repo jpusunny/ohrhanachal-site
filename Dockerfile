@@ -3,7 +3,7 @@
 FROM nginx:1.27-alpine
 
 # Copy only the site assets (keeps the image clean — no Dockerfile/configs served)
-COPY *.html styles.css cart.js /usr/share/nginx/html/
+COPY *.html styles.css cart.js config.js /usr/share/nginx/html/
 
 # Server config: clean URLs, gzip, asset caching
 COPY nginx.conf /etc/nginx/conf.d/default.conf
