@@ -1,15 +1,34 @@
-# Ohr Hanachal — static storefront mockup, served by nginx.
-# Coolify: use the "Dockerfile" build pack with this folder as the base directory.
-FROM nginx:1.27-alpine
+FROM node:22-slim AS deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
-# Copy only the site assets (keeps the image clean — no Dockerfile/configs served)
-COPY *.html styles.css cart.js config.js /usr/share/nginx/html/
+FROM node:22-slim AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
 
-# Server config: clean URLs, gzip, asset caching
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM node:22-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
-EXPOSE 80
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+ && rm -rf /var/lib/apt/lists/*
 
-# Force IPv4 (nginx listens on 0.0.0.0:80; "localhost" can resolve to ::1 first).
-HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=5 \
-  CMD wget -q --spider http://127.0.0.1:80/ || exit 1
+RUN addgroup --system --gid 1001 nodejs \
+ && adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+EXPOSE 3000
+
+HEALTHCHECK --interval=10s --timeout=3s --start-period=15s --retries=5 \
+  CMD curl -fsS http://127.0.0.1:3000/ || exit 1
+
+CMD ["node", "server.js"]
