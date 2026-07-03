@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Frank+Ruhl+Libre:wght@500;700;900&family=Inter:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="config.js"></script>
 </head>
 <body>
 
@@ -94,32 +95,44 @@
       <span class="kicker">Most Learned</span>
       <h2 class="h-display">Bestselling seforim</h2>
     </div>
-    <div class="grid">
-
-      <article class="card"><span class="tag tag--gold">Bestseller</span>
-        <div class="media"><img src="https://cdn.shopify.com/s/files/1/0785/4895/9454/files/CaptureOneCatalog6708copy2_2.png?v=1782640555&width=600" alt="Likutei Moharan"></div>
-        <div class="body"><span class="author">R' Nachman of Breslev</span><h3>Likutei Moharan</h3><span class="he-ttl">ליקוטי מוהר״ן</span><div class="foot"><span class="price">$14.99</span><button class="add" onclick="addToCart()">Add +</button></div></div>
-      </article>
-
-      <article class="card"><span class="tag tag--gold">Bestseller</span>
-        <div class="media"><img src="https://cdn.shopify.com/s/files/1/0785/4895/9454/files/LikuteiHalachos-OhrHanachal.jpg?v=1782640549&width=600" alt="Likutei Halachos"></div>
-        <div class="body"><span class="author">R' Nossen of Breslev</span><h3>Likutei Halachos</h3><span class="he-ttl">ליקוטי הלכות</span><div class="foot"><span class="price">$89.99</span><button class="add" onclick="addToCart()">Add +</button></div></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><img src="https://cdn.shopify.com/s/files/1/0785/4895/9454/files/CaptureOneCatalog6707copy2.png?v=1782640561&width=600" alt="Likutei Tefilos"></div>
-        <div class="body"><span class="author">R' Nossen of Breslev</span><h3>Likutei Tefilos</h3><span class="he-ttl">ליקוטי תפילות</span><div class="foot"><span class="price">$17.99</span><button class="add" onclick="addToCart()">Add +</button></div></div>
-      </article>
-
-      <article class="card">
-        <div class="media"><img src="https://cdn.shopify.com/s/files/1/0785/4895/9454/files/CaptureOneCatalog6704copy2.png?v=1782640557&width=600" alt="Sipurei Maasiyos"></div>
-        <div class="body"><span class="author">R' Nachman of Breslev</span><h3>Sipurei Maasiyos</h3><span class="he-ttl">סיפורי מעשיות</span><div class="foot"><span class="price">$15.99</span><button class="add" onclick="addToCart()">Add +</button></div></div>
-      </article>
-
-    </div>
+    <div class="grid" id="bestsellersGrid"></div>
     <div style="text-align:center;margin-top:40px"><a class="btn btn--outline" href="collection.html">View the full catalog</a></div>
   </div>
 </section>
+<script>
+  (async () => {
+    const OH_API = (window.OH && window.OH.API) || "";
+    const grid = document.getElementById('bestsellersGrid');
+    if (!grid) return;
+    try {
+      const res = await fetch(`${OH_API}/api/storefront/products`);
+      if (!res.ok) throw new Error(String(res.status));
+      const body = await res.json();
+      const items = (body.products || []).slice(0, 8);
+      const money = c => "$" + (c/100).toFixed(2);
+      const esc = s => String(s||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+      grid.innerHTML = items.map((p, i) => {
+        const badge = i < 2 ? '<span class="tag tag--gold">Bestseller</span>' : '';
+        const price = p.priceCentsMin == null ? '—'
+          : (p.priceCentsMin === p.priceCentsMax ? money(p.priceCentsMin) : 'from ' + money(p.priceCentsMin));
+        const img = p.image ? `<img src="${esc(p.image.url)}" alt="${esc(p.image.altText||p.title)}" loading="lazy">` : '';
+        return `<article class="card" data-handle="${esc(p.handle)}">${badge}
+          <div class="media"><a href="product.html?handle=${encodeURIComponent(p.handle)}">${img}</a></div>
+          <div class="body">
+            <h3><a href="product.html?handle=${encodeURIComponent(p.handle)}">${esc(p.title)}</a></h3>
+            ${p.titleHe ? `<span class="he-ttl">${esc(p.titleHe)}</span>` : ''}
+            <div class="foot"><span class="price">${price}</span>
+              <button class="add" onclick="OHCart.addFromCard(this)">Add +</button>
+            </div>
+          </div>
+        </article>`;
+      }).join('');
+    } catch (e){
+      console.error('bestsellers load failed', e);
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--ink-soft)">Catalog loading… refresh in a moment.</p>';
+    }
+  })();
+</script>
 
 <!-- featured set -->
 <section class="feature">
