@@ -63,6 +63,9 @@ export default function CheckoutClient() {
   const [payConfig, setPayConfig] = useState<PaymentConfig | null>(null);
   const [ifieldsReady, setIfieldsReady] = useState(false);
   const [wholesale, setWholesale] = useState<{ status: string; businessName: string } | null>(null);
+  const [signedIn, setSignedIn] = useState<{ email: string; name: string } | null>(null);
+  const [createAccount, setCreateAccount] = useState(false);
+  const [createPassword, setCreatePassword] = useState("");
   const [cvv, setCvv] = useState("");
   const [expMonth, setExpMonth] = useState("");
   const [expYear, setExpYear] = useState("");
@@ -86,6 +89,33 @@ export default function CheckoutClient() {
       .then((r) => r.json())
       .then((body) => {
         if (body.account?.status === "approved") setWholesale({ status: body.account.status, businessName: body.account.businessName });
+      })
+      .catch(() => {});
+  }, []);
+
+  // Prefill contact + shipping from the signed-in customer, if any. We only
+  // overwrite empty fields so a user editing something mid-flight doesn't lose
+  // their edits when the fetch resolves.
+  useEffect(() => {
+    fetch(`${OH_API_PUBLIC}/api/customer/me`, { credentials: "include" })
+      .then((r) => r.json())
+      .then((body) => {
+        const c = body.customer;
+        if (!c) return;
+        setSignedIn({ email: c.email, name: c.name });
+        setEmail((v) => v || c.email || "");
+        const [fn, ...rest] = (c.name || "").split(" ");
+        setFirstName((v) => v || fn || "");
+        setLastName((v) => v || rest.join(" ") || "");
+        setPhone((v) => v || c.phone || "");
+        if (c.ship) {
+          setStreet((v) => v || c.ship.street || "");
+          setStreet2((v) => v || c.ship.street2 || "");
+          setCity((v) => v || c.ship.city || "");
+          setState((v) => v || c.ship.state || "");
+          setZip((v) => v || c.ship.zip || "");
+          if (c.ship.country) setCountry(c.ship.country);
+        }
       })
       .catch(() => {});
   }, []);
@@ -144,6 +174,12 @@ export default function CheckoutClient() {
         if (!/^\d{1,2}$/.test(expMonth) || !/^\d{2,4}$/.test(expYear)) throw new Error("Enter card expiry as MM / YY.");
         cardknoxToken = await tokenizeCard();
       }
+      const createAccountPassword = !signedIn && createAccount && createPassword.length >= 8
+        ? createPassword
+        : undefined;
+      if (!signedIn && createAccount && !createAccountPassword) {
+        throw new Error("Choose a password of at least 8 characters, or uncheck 'Save my details'.");
+      }
       const payload = {
         customer: {
           email: email.trim().toLowerCase(),
@@ -160,6 +196,7 @@ export default function CheckoutClient() {
         },
         paymentPref,
         cardknoxToken,
+        createAccountPassword,
         note: note.trim() || undefined,
         lines: cart.lines.map((l) => ({ variantId: l.variantId, quantity: l.qty })),
       };
@@ -199,6 +236,16 @@ export default function CheckoutClient() {
       <div className="wrap">
         <form onSubmit={onSubmit}>
           <h1>Checkout</h1>
+          {signedIn && !wholesale && (
+            <p style={{ color: "var(--ink-soft)", fontSize: ".9rem", margin: "0 0 8px" }}>
+              Signed in as {signedIn.email} — details below are pre-filled from your account.
+            </p>
+          )}
+          {!signedIn && !wholesale && (
+            <p style={{ color: "var(--ink-soft)", fontSize: ".9rem", margin: "0 0 8px" }}>
+              Have an account? <Link className="link-gold" href="/account/login">Sign in</Link> for faster checkout.
+            </p>
+          )}
           {wholesale && (
             <div style={{ background: "rgba(212,181,113,0.15)", border: "1px solid var(--gold-lt)", padding: 12, borderRadius: 3, marginBottom: 12 }}>
               <strong>Wholesale account:</strong> {wholesale.businessName}. Prices will be recalculated at your wholesale rate on the server;
@@ -315,6 +362,25 @@ export default function CheckoutClient() {
             <textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)}
               placeholder="e.g. Gift wrap, best time to call, delivery notes" />
           </div>
+
+          {!signedIn && !wholesale && (
+            <div className="framed" style={{ padding: 14, marginTop: 12 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+                <input type="checkbox" checked={createAccount} onChange={(e) => setCreateAccount(e.target.checked)} />
+                <strong style={{ fontFamily: "var(--ui)", fontSize: ".9rem" }}>Save my details for next time</strong>
+              </label>
+              <p style={{ margin: "4px 0 0 26px", color: "var(--ink-soft)", fontSize: ".8rem" }}>
+                Creates an account with the email + address above. You&rsquo;ll see your order history at /account.
+              </p>
+              {createAccount && (
+                <div className="field" style={{ marginTop: 10, marginLeft: 26 }}>
+                  <label>Password (8+ characters)</label>
+                  <input type="password" minLength={8} value={createPassword}
+                    onChange={(e) => setCreatePassword(e.target.value)} placeholder="Set a password" />
+                </div>
+              )}
+            </div>
+          )}
 
           {err && <p style={{ color: "#a33", marginTop: 12 }}>{err}</p>}
 
