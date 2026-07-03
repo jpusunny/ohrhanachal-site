@@ -6,9 +6,15 @@ import { fetchProducts } from "@/lib/api";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const all = await fetchProducts().catch(() => []);
-  const bestsellers = all.slice(0, 8);
-  const more = all.slice(8, 12);
+  // Try the owner-curated "in our press this month" set first; fall back to the
+  // general catalog when nothing is flagged yet, so the homepage never shows
+  // an empty band before the flag is used.
+  const [pressed, all] = await Promise.all([
+    fetchProducts({ press: true }).catch(() => []),
+    fetchProducts().catch(() => []),
+  ]);
+  const pressBand = (pressed.length > 0 ? pressed : all).slice(0, 8);
+  const more = all.filter((p) => !pressBand.some((q) => q.id === p.id)).slice(0, 4);
 
   return (
     <>
@@ -21,7 +27,7 @@ export default async function HomePage() {
             <p className="lead">Espresso leather, gold filigree, lashon kodesh set with care. For years you found them through stores — now order the full Ohr Hanachal catalog direct.</p>
             <div className="hero-cta">
               <Link className="btn btn--solid" href="/collection">Shop the Catalog</Link>
-              <a className="link-gold" href="#bestsellers">Bestselling seforim →</a>
+              <a className="link-gold" href="#press-this-month">In our press this month →</a>
             </div>
           </div>
           <figure className="hero-figure">
@@ -34,13 +40,27 @@ export default async function HomePage() {
 
       <section className="declare">
         <div className="wrap">
-          <div className="ornament">
-            <span className="rule" />
-            <Crown className="crown" />
-            <span className="rule r" />
-          </div>
-          <p>&ldquo;Until now, our seforim reached you through someone else&rsquo;s shelf.&rdquo;</p>
-          <p className="sub">Today the press opens its own doors — the same editions, at the publisher&rsquo;s price.</p>
+          <article className="letter" aria-label="A letter from the press">
+            <span className="letter__bs">בס״ד</span>
+            <div className="letter__body">
+              <p className="letter__lede">
+                For twenty years, our seforim reached you through someone else&rsquo;s shelf.
+              </p>
+              <p>
+                Today, the press opens its own doors. The same editions our talmidim have learned from
+                for two decades — printed, proofed, and bound in our house — now shipped to your door,
+                at the publisher&rsquo;s price, with a line straight to the people who made them.
+              </p>
+              <div className="letter__sign">
+                <span className="letter__rule" />
+                <p className="letter__signee">
+                  <span className="he">הבית דפוס אור הנחל</span>
+                  <span className="letter__loc">The Ohr Hanachal Press</span>
+                </p>
+              </div>
+            </div>
+            <WaxSeal />
+          </article>
         </div>
       </section>
 
@@ -62,15 +82,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="block alt" id="bestsellers">
+      <section className="block alt" id="press-this-month">
         <div className="wrap">
           <div className="center-head">
-            <span className="kicker">Most Learned</span>
-            <h2 className="h-display">Bestselling seforim</h2>
+            <span className="kicker">On the Press Floor</span>
+            <h2 className="h-display">In our press this month</h2>
+            <p>Set, proofed, and bound in-house — these are the seforim we&rsquo;re printing right now.</p>
           </div>
           <div className="grid">
-            {bestsellers.map((p, i) => (
-              <ProductCard key={p.id} product={p} badge={i < 2 ? "Bestseller" : undefined} />
+            {pressBand.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                badge={p.currentlyPrinting ? "On the press" : undefined}
+              />
             ))}
           </div>
           <div style={{ textAlign: "center", marginTop: 40 }}>
@@ -144,13 +169,43 @@ function NewsletterSection() {
     <section className="news">
       <div className="wrap">
         <Crown className="crown" />
-        <h2>New printings, to your inbox</h2>
-        <p>Be first to know when a sefer is reprinted or a new binding is bound.</p>
+        <h2>When we go to print — we tell you first.</h2>
+        <p>A short note from the press when a sefer is on the floor, a new binding is finished, or a set is back in stock. No marketing.</p>
         <form>
           <input type="email" placeholder="your@email.com" required />
-          <button type="submit">Subscribe</button>
+          <button type="submit">Send from the press</button>
         </form>
       </div>
     </section>
+  );
+}
+
+// A small burgundy wax seal with the Ohr Hanachal crown, stamped as if pressed
+// into the letter above. Kept inline so the SVG palette can inherit brand vars
+// without another asset round-trip.
+function WaxSeal() {
+  return (
+    <svg className="wax-seal" viewBox="0 0 88 88" aria-hidden="true">
+      <defs>
+        <radialGradient id="waxfill" cx="35%" cy="30%">
+          <stop offset="0%" stopColor="#a83030" />
+          <stop offset="55%" stopColor="#7d1f1f" />
+          <stop offset="100%" stopColor="#4d1010" />
+        </radialGradient>
+      </defs>
+      <circle cx="44" cy="44" r="40" fill="url(#waxfill)"
+        stroke="#3a0d0d" strokeWidth="1.2"
+        style={{ filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.35))" }} />
+      <circle cx="44" cy="44" r="34" fill="none" stroke="#d1b06a" strokeWidth="0.8" opacity="0.6" />
+      {/* Crown, scaled/centered inside the seal */}
+      <g transform="translate(20 34) scale(0.75)" fill="#e8c778" opacity="0.95">
+        <path d="M3 36 7 13 20 25 32 5 44 25 57 13 61 36Z" />
+        <rect x="6" y="36" width="52" height="4" />
+      </g>
+      <text x="44" y="76" textAnchor="middle" fontSize="6.5" fill="#e8c778"
+        style={{ letterSpacing: "0.2em", fontFamily: "var(--ui)" }}>
+        אור הנחל
+      </text>
+    </svg>
   );
 }

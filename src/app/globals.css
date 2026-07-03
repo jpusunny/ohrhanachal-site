@@ -126,11 +126,97 @@ header.site{ position:sticky; top:0; z-index:50; background:var(--cream-2); bord
 .hero-figure img{ width:100%; position:relative; filter:drop-shadow(0 22px 36px rgba(42,28,16,.28)); }
 .hero-figure .cap{ position:absolute; bottom:-13px; left:50%; transform:translateX(-50%); background:var(--cream); padding:0 14px; font-family:var(--ui); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-deep); }
 
-/* reseller → direct line */
-.declare{ background:var(--cream-2); border-bottom:1px solid var(--line); }
-.declare .wrap{ padding:30px 28px; text-align:center; }
-.declare p{ font-family:var(--display); font-style:italic; font-size:1.5rem; color:var(--leather); margin:14px 0 0; }
-.declare .sub{ font-family:var(--body); font-style:normal; font-size:1rem; color:var(--ink-soft); margin-top:6px; }
+/* A signed letter from the press — presented as a physical document, not
+   a marketing quote block. Parchment card, double-rule border, a bs"d in the
+   top-right corner, italic body, signature line, and a wax seal stamped into
+   the lower right. */
+.declare{
+  background: var(--cream-2);
+  border-bottom:1px solid var(--line);
+  padding: 56px 0 66px;
+}
+.declare .wrap{ padding:0 28px; }
+
+.letter{
+  position:relative;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 44px 56px 52px;
+  background:
+    /* very subtle "aged paper" grain — layered semi-transparent radials */
+    radial-gradient(ellipse at 8% 12%, rgba(181,138,60,.06), transparent 40%),
+    radial-gradient(ellipse at 88% 88%, rgba(90,60,30,.05), transparent 45%),
+    var(--paper);
+  border: 1px solid var(--gold);
+  box-shadow: 0 16px 34px rgba(60,42,26,.11), 0 2px 6px rgba(60,42,26,.06);
+}
+.letter::before{
+  /* inner double-rule, echoing the book covers */
+  content:""; position:absolute; inset:8px;
+  border: 1px solid rgba(181,138,60,.35);
+  pointer-events:none;
+}
+.letter__bs{
+  position:absolute; top:14px; right:22px;
+  font-family: var(--hebrew);
+  font-size: .9rem;
+  color: var(--gold-deep);
+  letter-spacing: .05em;
+}
+.letter__body{ position:relative; }
+.letter__lede{
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  line-height: 1.25;
+  color: var(--leather);
+  margin: 0 0 18px;
+}
+.letter__body p{
+  font-family: var(--display);
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0 0 14px;
+}
+.letter__sign{ margin-top: 24px; }
+.letter__rule{
+  display:block;
+  width: 220px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 8px;
+}
+.letter__signee{
+  margin: 0;
+  display:flex; flex-direction:column; gap:2px;
+}
+.letter__signee .he{
+  font-family: var(--hebrew);
+  font-size: 1.35rem;
+  color: var(--leather);
+}
+.letter__loc{
+  font-family: var(--ui);
+  font-size: .68rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.wax-seal{
+  position:absolute;
+  bottom: 18px; right: 22px;
+  width: 78px; height: 78px;
+  transform: rotate(-8deg);
+  pointer-events:none;
+}
+@media (max-width: 640px){
+  .letter{ padding: 40px 26px 68px; }
+  .wax-seal{ width: 62px; height: 62px; bottom: 14px; right: 14px; }
+  .letter__lede{ font-size: 1.25rem; }
+}
 
 /* ============================================================
    sections

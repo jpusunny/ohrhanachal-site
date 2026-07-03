@@ -37,6 +37,7 @@ export type ProductCard = {
   compareAtCentsMax: number | null;
   image: { url: string; altText: string | null } | null;
   variantCount: number;
+  currentlyPrinting?: boolean;
 };
 
 export type SeforGroup = {
@@ -84,11 +85,13 @@ export type ProductDetail = {
   siblings: ProductSibling[];
 };
 
-export async function fetchProducts(): Promise<ProductCard[]> {
+export async function fetchProducts(opts?: { press?: boolean }): Promise<ProductCard[]> {
   // Cannot use `next.revalidate` cache when we forward per-user cookies —
   // wholesale customers get their own price shape, so bypass the shared cache.
   const headers = await ssrHeaders();
-  const res = await fetch(`${BASE}/api/storefront/products`, headers ? { cache: "no-store", headers } : { next: { revalidate: 60 } });
+  const url = new URL(`${BASE}/api/storefront/products`);
+  if (opts?.press) url.searchParams.set("press", "1");
+  const res = await fetch(url.toString(), headers ? { cache: "no-store", headers } : { next: { revalidate: 60 } });
   if (!res.ok) throw new Error(`products ${res.status}`);
   const body = await res.json();
   return body.products as ProductCard[];
