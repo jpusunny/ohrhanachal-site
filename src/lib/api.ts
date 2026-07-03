@@ -3,6 +3,23 @@
 // the box's public IP (Azure blocks host → own-public-IP hairpin). The alias
 // is re-attached after every API redeploy — see the `ohr-api` note in CLAUDE.md.
 const BASE = process.env.OH_API_BASE || "http://api.52.162.164.124.sslip.io";
+const WHOLESALE_COOKIE = "ohr_wholesale";
+
+// Forward the browser's wholesale-session cookie on SSR fetches so the API sees
+// the same session it would see on a direct client-side call. Without this,
+// SSR pages (collection, product) would always show retail prices even for
+// signed-in wholesale customers.
+async function ssrHeaders(): Promise<HeadersInit | undefined> {
+  try {
+    const { cookies } = await import("next/headers");
+    const store = await cookies();
+    const c = store.get(WHOLESALE_COOKIE);
+    if (!c?.value) return undefined;
+    return { cookie: `${WHOLESALE_COOKIE}=${c.value}` };
+  } catch {
+    return undefined;
+  }
+}
 
 export type AuthorGroup = "nachman" | "nossen" | "anash" | "set" | "other";
 
@@ -68,7 +85,10 @@ export type ProductDetail = {
 };
 
 export async function fetchProducts(): Promise<ProductCard[]> {
-  const res = await fetch(`${BASE}/api/storefront/products`, { next: { revalidate: 60 } });
+  // Cannot use `next.revalidate` cache when we forward per-user cookies —
+  // wholesale customers get their own price shape, so bypass the shared cache.
+  const headers = await ssrHeaders();
+  const res = await fetch(`${BASE}/api/storefront/products`, headers ? { cache: "no-store", headers } : { next: { revalidate: 60 } });
   if (!res.ok) throw new Error(`products ${res.status}`);
   const body = await res.json();
   return body.products as ProductCard[];
@@ -77,7 +97,8 @@ export async function fetchProducts(): Promise<ProductCard[]> {
 export async function fetchGroups(series?: string): Promise<SeforGroup[]> {
   const url = new URL(`${BASE}/api/storefront/groups`);
   if (series) url.searchParams.set("series", series);
-  const res = await fetch(url.toString(), { next: { revalidate: 60 } });
+  const headers = await ssrHeaders();
+  const res = await fetch(url.toString(), headers ? { cache: "no-store", headers } : { next: { revalidate: 60 } });
   if (!res.ok) throw new Error(`groups ${res.status}`);
   const body = await res.json();
   return body.groups as SeforGroup[];
@@ -92,9 +113,10 @@ export const AUTHOR_LABEL: Record<AuthorGroup, string> = {
 };
 
 export async function fetchProduct(handle: string): Promise<ProductDetail | null> {
+  const headers = await ssrHeaders();
   const res = await fetch(
     `${BASE}/api/storefront/products/${encodeURIComponent(handle)}`,
-    { next: { revalidate: 60 } },
+    headers ? { cache: "no-store", headers } : { next: { revalidate: 60 } },
   );
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`product ${res.status}`);

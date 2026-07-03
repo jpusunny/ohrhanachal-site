@@ -17,7 +17,10 @@ export default function WholesalePage() {
             <p className="kicker" style={{ color: "var(--gold-lt)" }}>Bulk &amp; Wholesale</p>
             <h1>Fill the beis medrash, not just the shelf.</h1>
             <p>Outfitting a shul, yeshiva, or mosad? Buy direct from the press at volume pricing — full cases of any sefer, matched sets, and custom leather bindings, shipped on a schedule that fits your zman.</p>
-            <a className="btn btn--gold" href="#inquiry">Request a Quote</a>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <a className="btn btn--gold" href="/wholesale/signup">Open an account</a>
+              <a className="btn" href="/wholesale/login" style={{ background: "transparent", borderColor: "var(--gold-lt)", color: "var(--gold-lt)" }}>Sign in</a>
+            </div>
           </div>
           <div className="figure framed on-dark">
             {/* eslint-disable-next-line @next/next/no-img-element */}
