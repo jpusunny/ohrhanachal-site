@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { fetchGroups, money, AUTHOR_LABEL, type SeforGroup } from "@/lib/api";
+import { getLang, type Lang } from "@/lib/lang";
 
 export const revalidate = 60;
 
@@ -37,6 +38,7 @@ export default async function CollectionPage({ searchParams }: { searchParams: P
   const q = typeof sp.q === "string" ? sp.q : undefined;
 
   const groups = await fetchGroups(series).catch(() => [] as SeforGroup[]);
+  const lang = await getLang();
 
   const filtered = groups.filter((g) => {
     if (format) {
@@ -106,7 +108,7 @@ export default async function CollectionPage({ searchParams }: { searchParams: P
               </p>
             ) : (
               <div className="grid">
-                {filtered.map((g) => <GroupCard key={g.slug} group={g} />)}
+                {filtered.map((g) => <GroupCard key={g.slug} group={g} lang={lang} />)}
               </div>
             )}
           </div>
@@ -148,7 +150,7 @@ function ChipLink({ label, active, href }: { label: string; active: boolean; hre
   );
 }
 
-function GroupCard({ group: g }: { group: SeforGroup }) {
+function GroupCard({ group: g, lang }: { group: SeforGroup; lang: Lang }) {
   const priceLabel = g.priceCentsMin == null
     ? "—"
     : g.priceCentsMin === g.priceCentsMax
@@ -156,6 +158,7 @@ function GroupCard({ group: g }: { group: SeforGroup }) {
       : `from ${money(g.priceCentsMin)}`;
   const authorLabel = AUTHOR_LABEL[g.authorGroup];
   const formatsLine = g.formats.length > 1 ? g.formats.join(" · ") : null;
+  const heMode = lang === "he" && !!g.titleHe;
   return (
     <article className="card">
       <div className="media">
@@ -168,8 +171,17 @@ function GroupCard({ group: g }: { group: SeforGroup }) {
       </div>
       <div className="body">
         {authorLabel ? <span className="author">{authorLabel}</span> : null}
-        <h3><Link href={`/product/${encodeURIComponent(g.productHandle)}`}>{g.title}</Link></h3>
-        {g.titleHe ? <span className="he-ttl">{g.titleHe}</span> : null}
+        {heMode ? (
+          <>
+            <h3 className="he-primary"><Link href={`/product/${encodeURIComponent(g.productHandle)}`}>{g.titleHe}</Link></h3>
+            <span className="en-sub">{g.title}</span>
+          </>
+        ) : (
+          <>
+            <h3><Link href={`/product/${encodeURIComponent(g.productHandle)}`}>{g.title}</Link></h3>
+            {g.titleHe ? <span className="he-ttl">{g.titleHe}</span> : null}
+          </>
+        )}
         {formatsLine ? <span className="meta">{formatsLine}</span> : null}
         <div className="foot">
           <span className="price">{priceLabel}</span>

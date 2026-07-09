@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fetchProduct, money, AUTHOR_LABEL } from "@/lib/api";
+import { getLang } from "@/lib/lang";
 import ProductDetailClient from "./ProductDetailClient";
 
 export const revalidate = 60;
@@ -31,15 +32,17 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
 
   const priceInit = p.variants[0]?.priceCents ?? 0;
   const authorLabel = AUTHOR_LABEL[p.authorGroup];
+  const lang = await getLang();
+  const heMode = lang === "he" && !!p.titleHe;
 
   return (
     <div className="wrap">
       <div className="crumbs" style={{ paddingTop: 24 }}>
-        <Link href="/">Home</Link> &nbsp;/&nbsp; <Link href="/collection">Seforim</Link> &nbsp;/&nbsp; {p.title}
+        <Link href="/">Home</Link> &nbsp;/&nbsp; <Link href="/collection">All Seforim</Link> &nbsp;/&nbsp; {heMode ? p.titleHe : p.title}
       </div>
 
       <div className="pdp">
-        <ProductDetailClient product={p} authorLabel={authorLabel} />
+        <ProductDetailClient product={p} authorLabel={authorLabel} lang={lang} />
       </div>
 
       {p.siblings.length > 0 && (

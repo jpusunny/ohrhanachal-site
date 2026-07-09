@@ -2,11 +2,25 @@
 
 import { useState } from "react";
 import { money, type ProductDetail } from "@/lib/api";
+import type { Lang } from "@/lib/lang";
 import { useCart } from "@/components/CartProvider";
 
-type Props = { product: ProductDetail; authorLabel: string };
+type Props = { product: ProductDetail; authorLabel: string; lang?: Lang };
 
-export default function ProductDetailClient({ product: p, authorLabel }: Props) {
+function deriveAttributes(title: string): string[] {
+  const t = title.toLowerCase();
+  const pills: string[] = ["Lashon Kodesh"];
+  if (/\bset\b/.test(t)) {
+    pills.push("Complete Set");
+    return pills;
+  }
+  pills.push(t.includes("pocket") ? "Pocket Size" : "Regular Size");
+  pills.push(t.includes("leather") ? "Leather" : "Hardcover");
+  return pills;
+}
+
+export default function ProductDetailClient({ product: p, authorLabel, lang = "en" }: Props) {
+  const heMode = lang === "he" && !!p.titleHe;
   const [variantIdx, setVariantIdx] = useState(0);
   const [imgIdx, setImgIdx] = useState(0);
   const [qty, setQty] = useState(1);
@@ -57,14 +71,35 @@ export default function ProductDetailClient({ product: p, authorLabel }: Props) 
 
       <div className="pinfo">
         {authorLabel ? <span className="author">{authorLabel}</span> : null}
-        <h1>{p.title}</h1>
-        {p.titleHe ? <div className="he-ttl">{p.titleHe}</div> : null}
+        {heMode ? (
+          <>
+            <h1 className="he-primary">{p.titleHe}</h1>
+            <div className="en-sub en-sub--big">{p.title}</div>
+          </>
+        ) : (
+          <>
+            <h1>{p.title}</h1>
+            {p.titleHe ? <div className="he-ttl">{p.titleHe}</div> : null}
+          </>
+        )}
+
+        <div className="attr-pills">
+          {deriveAttributes(p.title).map((a) => (
+            <span className="pill" key={a}>{a}</span>
+          ))}
+        </div>
+
         {p.descriptionHtml ? (
           <div className="desc" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
         ) : null}
 
         <div className="price-row">
           <span className="now">{priceLabel}</span>
+          {variant?.inStock ? (
+            <span className="stock-chip">In stock</span>
+          ) : (
+            <span className="stock-chip stock-chip--out">Backorder</span>
+          )}
           <span className="save">Direct from the press</span>
         </div>
 

@@ -105,6 +105,11 @@ header.site{ position:sticky; top:0; z-index:50; background:var(--cream-2); bord
 .menu a{ font-family:var(--ui); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink); }
 .menu a:hover{ color:var(--gold-deep); }
 .nav-actions{ display:flex; align-items:center; gap:6px; }
+.langtoggle{ background:transparent; border:1px solid var(--line); color:var(--ink-soft); font-family:var(--ui); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; padding:6px 10px; display:inline-flex; align-items:center; gap:6px; margin-right:4px; }
+.langtoggle:hover{ border-color:var(--gold); }
+.langtoggle .is-active{ color:var(--leather); font-weight:700; }
+.langtoggle .he{ font-family:var(--hebrew); font-size:1rem; letter-spacing:0; line-height:1; }
+.langtoggle .sep{ opacity:.5; }
 .iconbtn{ width:40px; height:40px; border:0; background:transparent; display:grid; place-items:center; color:var(--leather); position:relative; }
 .iconbtn:hover{ color:var(--gold-deep); }
 .iconbtn .badge{ position:absolute; top:2px; right:2px; min-width:16px; height:16px; padding:0 4px; background:var(--gold); color:#fff; border-radius:9px; font-size:.62rem; font-family:var(--ui); font-weight:700; display:grid; place-items:center; }
@@ -247,13 +252,18 @@ section.block.alt{ background:var(--cream-2); }
 .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
 .card{ background:var(--paper); border:1px solid var(--line); display:flex; flex-direction:column; transition:.18s; position:relative; }
 .card:hover{ box-shadow:var(--shadow-md); border-color:var(--gold); }
-.card .media{ background:#fff; padding:22px; aspect-ratio:1/1; display:grid; place-items:center; overflow:hidden; }
-.card .media img{ max-height:100%; width:auto; object-fit:contain; transition:.25s; }
+.card .media{ background:#fff; padding:14px; aspect-ratio:3/4; display:grid; place-items:center; overflow:hidden; }
+.card .media img{ max-height:100%; max-width:100%; width:auto; height:auto; object-fit:contain; transition:.25s; }
 .card:hover .media img{ transform:scale(1.03); }
 .card .body{ padding:18px 20px 20px; display:flex; flex-direction:column; flex:1; border-top:1px solid var(--line); }
 .card .author{ font-family:var(--ui); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); font-weight:600; }
 .card h3{ font-family:var(--display); font-size:1.34rem; color:var(--leather); margin:5px 0 2px; line-height:1.12; font-weight:600; }
 .card .he-ttl{ font-family:var(--hebrew); direction:rtl; color:var(--ink-soft); font-size:1rem; }
+.card h3.he-primary{ font-family:var(--hebrew); direction:rtl; font-size:1.55rem; letter-spacing:0; line-height:1.15; }
+.card .en-sub{ font-family:var(--display); font-style:italic; color:var(--ink-soft); font-size:.95rem; margin-top:2px; }
+.pinfo h1.he-primary{ font-family:var(--hebrew); direction:rtl; letter-spacing:0; }
+.pinfo .en-sub{ font-family:var(--display); font-style:italic; color:var(--ink-soft); font-size:1.1rem; margin-bottom:14px; }
+.pinfo .en-sub--big{ font-size:1.4rem; }
 .card .meta{ font-size:.9rem; color:var(--ink-soft); margin-top:4px; }
 .card .foot{ margin-top:auto; padding-top:16px; display:flex; align-items:center; justify-content:space-between; }
 .card .price{ font-family:var(--display); font-size:1.5rem; font-weight:700; color:var(--leather); }
@@ -359,10 +369,14 @@ footer.site a:hover{ color:var(--gold-pale); }
 .rating{ display:flex; align-items:center; gap:8px; color:var(--gold); font-size:1rem; margin-bottom:16px; }
 .rating span{ color:var(--ink-soft); font-family:var(--ui); font-size:.84rem; }
 .pinfo .desc{ color:var(--ink-soft); margin:0 0 6px; }
-.price-row{ display:flex; align-items:baseline; gap:14px; margin:20px 0; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.attr-pills{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 18px; }
+.attr-pills .pill{ font-family:var(--ui); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--leather); background:transparent; border:1px solid var(--gold); padding:5px 11px; border-radius:999px; }
+.price-row{ display:flex; align-items:baseline; gap:14px; margin:20px 0; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); flex-wrap:wrap; }
 .price-row .now{ font-family:var(--display); font-size:2.4rem; font-weight:700; color:var(--leather); }
 .price-row .was{ color:var(--ink-soft); text-decoration:line-through; font-size:1.2rem; }
 .price-row .save{ font-family:var(--ui); background:var(--cream); color:var(--gold-deep); font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:5px 11px; border:1px solid var(--gold); }
+.stock-chip{ font-family:var(--ui); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:#0d5b2a; background:#e6f2ea; border:1px solid #b8d9c1; padding:5px 10px; border-radius:2px; align-self:center; }
+.stock-chip--out{ color:var(--gold-deep); background:var(--cream); border-color:var(--gold); }
 .opts{ margin:22px 0; }
 .opts .lab{ font-family:var(--ui); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--leather); margin-bottom:10px; font-weight:600; }
 .swatches{ display:flex; gap:10px; flex-wrap:wrap; }

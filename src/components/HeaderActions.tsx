@@ -6,12 +6,20 @@ import { useCart } from "./CartProvider";
 
 const OH_API_PUBLIC = "http://api.52.162.164.124.sslip.io";
 
+function readLangCookie(): "en" | "he" {
+  if (typeof document === "undefined") return "en";
+  const m = document.cookie.match(/(?:^|; )ohr_lang=([^;]*)/);
+  return m && m[1] === "he" ? "he" : "en";
+}
+
 export default function HeaderActions() {
   const router = useRouter();
   const cart = useCart();
   const [signedIn, setSignedIn] = useState(false);
+  const [lang, setLang] = useState<"en" | "he">("en");
 
   useEffect(() => {
+    setLang(readLangCookie());
     fetch(`${OH_API_PUBLIC}/api/customer/me`, { credentials: "include" })
       .then((r) => r.json())
       .then((body) => setSignedIn(!!body.customer))
@@ -23,8 +31,25 @@ export default function HeaderActions() {
     if (q) router.push(`/collection?q=${encodeURIComponent(q)}`);
   }
 
+  function toggleLang() {
+    const next = lang === "he" ? "en" : "he";
+    document.cookie = `ohr_lang=${next}; path=/; max-age=31536000; samesite=lax`;
+    setLang(next);
+    router.refresh();
+  }
+
   return (
     <div className="nav-actions">
+      <button
+        className="langtoggle"
+        aria-label={lang === "he" ? "Switch to English titles" : "Switch to Hebrew titles"}
+        title={lang === "he" ? "Showing Hebrew titles — click for English" : "Showing English titles — click for Hebrew"}
+        onClick={toggleLang}
+      >
+        <span className={lang === "en" ? "is-active" : ""}>EN</span>
+        <span className="sep">·</span>
+        <span className={lang === "he" ? "is-active he" : "he"}>א</span>
+      </button>
       <button className="iconbtn" aria-label="Search" onClick={onSearch}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
       </button>

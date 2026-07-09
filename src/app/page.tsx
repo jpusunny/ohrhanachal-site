@@ -2,6 +2,7 @@ import Link from "next/link";
 import Crown from "@/components/Crown";
 import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/lib/api";
+import { getLang } from "@/lib/lang";
 
 export const revalidate = 60;
 
@@ -9,9 +10,10 @@ export default async function HomePage() {
   // Try the owner-curated "in our press this month" set first; fall back to the
   // general catalog when nothing is flagged yet, so the homepage never shows
   // an empty band before the flag is used.
-  const [pressed, all] = await Promise.all([
+  const [pressed, all, lang] = await Promise.all([
     fetchProducts({ press: true }).catch(() => []),
     fetchProducts().catch(() => []),
+    getLang(),
   ]);
   const pressBand = (pressed.length > 0 ? pressed : all).slice(0, 8);
   const more = all.filter((p) => !pressBand.some((q) => q.id === p.id)).slice(0, 4);
@@ -85,6 +87,7 @@ export default async function HomePage() {
       <section className="block alt" id="press-this-month">
         <div className="wrap">
           <div className="center-head">
+            <div className="ornament"><span className="rule" /><Crown className="crown" /><span className="rule r" /></div>
             <span className="kicker">On the Press Floor</span>
             <h2 className="h-display">In our press this month</h2>
             <p>Set, proofed, and bound in-house — these are the seforim we&rsquo;re printing right now.</p>
@@ -94,6 +97,7 @@ export default async function HomePage() {
               <ProductCard
                 key={p.id}
                 product={p}
+                lang={lang}
                 badge={p.currentlyPrinting ? "On the press" : undefined}
               />
             ))}
@@ -129,12 +133,13 @@ export default async function HomePage() {
         <section className="block">
           <div className="wrap">
             <div className="center-head">
+              <div className="ornament"><span className="rule" /><Crown className="crown" /><span className="rule r" /></div>
               <span className="kicker">From the Press</span>
               <h2 className="h-display">More from the catalog</h2>
             </div>
             <div className="grid">
               {more.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} lang={lang} />
               ))}
             </div>
           </div>
