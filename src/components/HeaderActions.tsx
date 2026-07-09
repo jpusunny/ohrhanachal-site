@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "./CartProvider";
 
-const OH_API_PUBLIC = "http://api.52.162.164.124.sslip.io";
+const OH_API_PUBLIC = "https://api.52.162.164.124.sslip.io";
 
 function readLangCookie(): "en" | "he" {
   if (typeof document === "undefined") return "en";

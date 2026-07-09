@@ -21,7 +21,7 @@ declare global {
 }
 
 const IFIELDS_SCRIPT = "https://cdn.cardknox.com/ifields/2.16.2412.0801/ifields.min.js";
-const OH_API_PUBLIC = "http://api.52.162.164.124.sslip.io"; // browser-side URL
+const OH_API_PUBLIC = "https://api.52.162.164.124.sslip.io"; // browser-side URL
 
 function money(n: number) { return "$" + n.toFixed(2); }
 

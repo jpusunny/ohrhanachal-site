@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const OH_API_PUBLIC = "http://api.52.162.164.124.sslip.io";
+const OH_API_PUBLIC = "https://api.52.162.164.124.sslip.io";
 
 export default function LoginForm() {
   const router = useRouter();
