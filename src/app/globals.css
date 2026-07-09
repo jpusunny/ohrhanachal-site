@@ -101,15 +101,15 @@ header.site{ position:sticky; top:0; z-index:50; background:var(--cream-2); bord
 .brand .crown{ width:30px; }
 .brand .name b{ display:block; font-family:var(--display); font-size:1.55rem; font-weight:700; color:var(--leather); line-height:1; letter-spacing:.01em; }
 .brand .name span{ font-family:var(--ui); font-size:.6rem; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-deep); }
-.menu{ display:flex; gap:26px; list-style:none; margin:0; padding:0; }
-.menu a{ font-family:var(--ui); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink); }
+.menu{ display:flex; gap:18px; list-style:none; margin:0; padding:0; }
+.menu a{ font-family:var(--ui); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; font-weight:500; color:var(--ink); white-space:nowrap; }
 .menu a:hover{ color:var(--gold-deep); }
 .nav-actions{ display:flex; align-items:center; gap:6px; }
-.langtoggle{ background:transparent; border:1px solid var(--line); color:var(--ink-soft); font-family:var(--ui); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; padding:6px 10px; display:inline-flex; align-items:center; gap:6px; margin-right:4px; }
-.langtoggle:hover{ border-color:var(--gold); }
-.langtoggle .is-active{ color:var(--leather); font-weight:700; }
-.langtoggle .he{ font-family:var(--hebrew); font-size:1rem; letter-spacing:0; line-height:1; }
-.langtoggle .sep{ opacity:.5; }
+/* Compact single-char toggle: shows only the language you'd switch TO, so
+   it stays icon-sized (~40px) and doesn't push the .menu into overflow. */
+.langtoggle{ width:40px; height:40px; background:transparent; border:0; color:var(--leather); font-family:var(--ui); font-size:.84rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600; display:grid; place-items:center; padding:0; }
+.langtoggle:hover{ color:var(--gold-deep); }
+.langtoggle .he{ font-family:var(--hebrew); font-size:1.35rem; letter-spacing:0; line-height:1; }
 .iconbtn{ width:40px; height:40px; border:0; background:transparent; display:grid; place-items:center; color:var(--leather); position:relative; }
 .iconbtn:hover{ color:var(--gold-deep); }
 .iconbtn .badge{ position:absolute; top:2px; right:2px; min-width:16px; height:16px; padding:0 4px; background:var(--gold); color:#fff; border-radius:9px; font-size:.62rem; font-family:var(--ui); font-weight:700; display:grid; place-items:center; }
@@ -372,13 +372,13 @@ footer.site a:hover{ color:var(--gold-pale); }
 .rating{ display:flex; align-items:center; gap:8px; color:var(--gold); font-size:1rem; margin-bottom:16px; }
 .rating span{ color:var(--ink-soft); font-family:var(--ui); font-size:.84rem; }
 .pinfo .desc{ color:var(--ink-soft); margin:0 0 6px; }
-.attr-pills{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 18px; }
-.attr-pills .pill{ font-family:var(--ui); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--leather); background:transparent; border:1px solid var(--gold); padding:5px 11px; border-radius:999px; }
-.price-row{ display:flex; align-items:baseline; gap:14px; margin:20px 0; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); flex-wrap:wrap; }
-.price-row .now{ font-family:var(--display); font-size:2.4rem; font-weight:700; color:var(--leather); }
+.attr-pills{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 16px; }
+.attr-pills .pill{ font-family:var(--ui); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600; color:var(--ink-soft); background:var(--cream); border:1px solid var(--line); padding:4px 10px; border-radius:2px; }
+.price-row{ display:flex; align-items:center; gap:14px; margin:20px 0; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.price-row .now{ font-family:var(--display); font-size:2.4rem; font-weight:700; color:var(--leather); line-height:1; }
 .price-row .was{ color:var(--ink-soft); text-decoration:line-through; font-size:1.2rem; }
 .price-row .save{ font-family:var(--ui); background:var(--cream); color:var(--gold-deep); font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:5px 11px; border:1px solid var(--gold); }
-.stock-chip{ font-family:var(--ui); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:#0d5b2a; background:#e6f2ea; border:1px solid #b8d9c1; padding:5px 10px; border-radius:2px; align-self:center; }
+.stock-chip{ font-family:var(--ui); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:#0d5b2a; background:#e6f2ea; border:1px solid #b8d9c1; padding:5px 10px; border-radius:2px; }
 .stock-chip--out{ color:var(--gold-deep); background:var(--cream); border-color:var(--gold); }
 .opts{ margin:22px 0; }
 .opts .lab{ font-family:var(--ui); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--leather); margin-bottom:10px; font-weight:600; }

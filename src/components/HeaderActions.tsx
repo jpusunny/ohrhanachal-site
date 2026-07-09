@@ -46,9 +46,7 @@ export default function HeaderActions() {
         title={lang === "he" ? "Showing Hebrew titles — click for English" : "Showing English titles — click for Hebrew"}
         onClick={toggleLang}
       >
-        <span className={lang === "en" ? "is-active" : ""}>EN</span>
-        <span className="sep">·</span>
-        <span className={lang === "he" ? "is-active he" : "he"}>א</span>
+        {lang === "he" ? <span>EN</span> : <span className="he">א</span>}
       </button>
       <button className="iconbtn" aria-label="Search" onClick={onSearch}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
