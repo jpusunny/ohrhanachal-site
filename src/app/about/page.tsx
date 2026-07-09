@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Crown from "@/components/Crown";
+import Fleuron from "@/components/Fleuron";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -73,7 +74,7 @@ export default function AboutPage() {
       <section className="feature">
         <div className="wrap">
           <div className="copy">
-            <Crown className="crown" />
+            <Fleuron className="fleuron fleuron--lg" />
             <p className="kicker" style={{ color: "var(--gold-lt)" }}>Direct From the Press</p>
             <h2>The same seforim, without the middleman</h2>
             <p>For years our seforim reached you through stores. Bringing the shop online means a fair price, the full catalog in every format, and a direct line to us — for sets, special leather bindings, and bulk orders for your shul or mosad.</p>

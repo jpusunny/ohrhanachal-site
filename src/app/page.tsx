@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Crown from "@/components/Crown";
+import Fleuron from "@/components/Fleuron";
 import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/lib/api";
 import { getLang } from "@/lib/lang";
@@ -111,7 +112,7 @@ export default async function HomePage() {
       <section className="feature">
         <div className="wrap">
           <div className="copy">
-            <Crown className="crown" />
+            <Fleuron className="fleuron fleuron--lg" />
             <p className="kicker" style={{ color: "var(--gold-lt)" }}>Build Your Shelf</p>
             <h2>The complete Breslev set</h2>
             <p>Every foundational sefer — Rabbeinu and R&apos; Nossen — in one matched, hand-bound collection. Available as a full hardcover set or a complete pocket set, shipped direct from the press.</p>
@@ -149,7 +150,7 @@ export default async function HomePage() {
       <section className="house" id="house">
         <div className="wrap">
           <div>
-            <Crown className="crown" />
+            <Fleuron className="fleuron fleuron--lg" />
             <p className="kicker">Our House</p>
             <h2>Printed by the people who learn it</h2>
             <p>Ohr Hanachal began as a small press with one aim — to put accurate, beautiful Breslev seforim into as many hands as possible. Every volume is set and proofread in lashon kodesh, faithful to the original, and bound in the leather-and-gold our learners know on sight.</p>
@@ -173,7 +174,7 @@ function NewsletterSection() {
   return (
     <section className="news">
       <div className="wrap">
-        <Crown className="crown" />
+        <Fleuron className="fleuron fleuron--lg" />
         <h2>When we go to print — we tell you first.</h2>
         <p>A short note from the press when a sefer is on the floor, a new binding is finished, or a set is back in stock. No marketing.</p>
         <form>

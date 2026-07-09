@@ -40,7 +40,10 @@ export default function LoginForm() {
       <button className="btn btn--solid btn--block" disabled={busy} type="submit">
         {busy ? "Signing in…" : "Sign in"}
       </button>
-      <p style={{ textAlign: "center", marginTop: 12 }}>
+      <p style={{ textAlign: "center", marginTop: 14, fontSize: ".92rem", color: "var(--ink-soft)" }}>
+        <Link className="link-gold" href="/about#contact" style={{ fontSize: ".92rem" }}>Trouble signing in? Reach us →</Link>
+      </p>
+      <p style={{ textAlign: "center", marginTop: 10 }}>
         New customer? <Link className="link-gold" href="/account/signup">Create an account →</Link>
       </p>
     </form>

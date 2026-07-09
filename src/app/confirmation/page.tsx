@@ -19,8 +19,8 @@ const STATUS_LABEL: Record<string, string> = {
 
 const STATUS_COLOR: Record<string, string> = {
   pending: "var(--gold-deep)",
-  paid: "#1e3a8a",
-  shipped: "#6d28d9",
+  paid: "var(--leather)",
+  shipped: "var(--gold-deep)",
   delivered: "#166534",
   cancelled: "#6b7280",
 };

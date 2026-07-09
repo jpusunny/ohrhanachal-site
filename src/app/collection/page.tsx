@@ -37,8 +37,19 @@ export default async function CollectionPage({ searchParams }: { searchParams: P
   const format = typeof sp.format === "string" ? sp.format : undefined;
   const q = typeof sp.q === "string" ? sp.q : undefined;
 
-  const groups = await fetchGroups(series).catch(() => [] as SeforGroup[]);
+  // Fetch ALL groups unfiltered so the sidebar can show accurate counts
+  // for every filter option (not just the currently-selected series).
+  const allGroups = await fetchGroups().catch(() => [] as SeforGroup[]);
   const lang = await getLang();
+
+  const seriesCounts = { nachman: 0, nossen: 0, anash: 0, set: 0 };
+  const formatCounts = { Regular: 0, Pocket: 0, Leather: 0, Set: 0 };
+  for (const g of allGroups) {
+    if (g.authorGroup in seriesCounts) seriesCounts[g.authorGroup as keyof typeof seriesCounts]++;
+    for (const f of g.formats) if (f in formatCounts) formatCounts[f as keyof typeof formatCounts]++;
+  }
+
+  const groups = series ? allGroups.filter((g) => g.authorGroup === series) : allGroups;
 
   const filtered = groups.filter((g) => {
     if (format) {
@@ -75,18 +86,18 @@ export default async function CollectionPage({ searchParams }: { searchParams: P
         <div className="shop">
           <aside className="filters">
             <FilterGroup title="Series">
-              <FilterLink label="All series" active={!series} href={buildHref({ series: undefined, format, q })} />
-              <FilterLink label="R' Nachman" active={series === "nachman"} href={buildHref({ series: "nachman", format, q })} />
-              <FilterLink label="R' Nossen" active={series === "nossen"} href={buildHref({ series: "nossen", format, q })} />
-              <FilterLink label="Sifrei Anash" active={series === "anash"} href={buildHref({ series: "anash", format, q })} />
-              <FilterLink label="Sets" active={series === "set"} href={buildHref({ series: "set", format, q })} />
+              <FilterLink label="All series" count={allGroups.length} active={!series} href={buildHref({ series: undefined, format, q })} />
+              <FilterLink label="R' Nachman" count={seriesCounts.nachman} active={series === "nachman"} href={buildHref({ series: "nachman", format, q })} />
+              <FilterLink label="R' Nossen" count={seriesCounts.nossen} active={series === "nossen"} href={buildHref({ series: "nossen", format, q })} />
+              <FilterLink label="Sifrei Anash" count={seriesCounts.anash} active={series === "anash"} href={buildHref({ series: "anash", format, q })} />
+              <FilterLink label="Sets" count={seriesCounts.set} active={series === "set"} href={buildHref({ series: "set", format, q })} />
             </FilterGroup>
             <FilterGroup title="Binding">
               <FilterLink label="All bindings" active={!format} href={buildHref({ series, format: undefined, q })} />
-              <FilterLink label="Regular size" active={format === "regular"} href={buildHref({ series, format: "regular", q })} />
-              <FilterLink label="Pocket" active={format === "pocket"} href={buildHref({ series, format: "pocket", q })} />
-              <FilterLink label="Leather bound" active={format === "leather"} href={buildHref({ series, format: "leather", q })} />
-              <FilterLink label="Set / bundle" active={format === "set"} href={buildHref({ series, format: "set", q })} />
+              <FilterLink label="Regular size" count={formatCounts.Regular} active={format === "regular"} href={buildHref({ series, format: "regular", q })} />
+              <FilterLink label="Pocket" count={formatCounts.Pocket} active={format === "pocket"} href={buildHref({ series, format: "pocket", q })} />
+              <FilterLink label="Leather bound" count={formatCounts.Leather} active={format === "leather"} href={buildHref({ series, format: "leather", q })} />
+              <FilterLink label="Set / bundle" count={formatCounts.Set} active={format === "set"} href={buildHref({ series, format: "set", q })} />
             </FilterGroup>
           </aside>
 
@@ -136,10 +147,11 @@ function FilterGroup({ title, children }: { title: string; children: React.React
   );
 }
 
-function FilterLink({ label, active, href }: { label: string; active: boolean; href: string }) {
+function FilterLink({ label, active, href, count }: { label: string; active: boolean; href: string; count?: number }) {
   return (
-    <Link href={href} style={{ display: "block", padding: "3px 0", fontFamily: "var(--ui)", fontSize: ".85rem", color: active ? "var(--gold-deep)" : "var(--ink-soft)", fontWeight: active ? 600 : 400 }}>
-      {active ? "● " : "○ "}{label}
+    <Link href={href} className={"flink" + (active ? " is-active" : "")}>
+      <span className="flink__label">{label}</span>
+      {typeof count === "number" ? <span className="flink__count">{count}</span> : null}
     </Link>
   );
 }

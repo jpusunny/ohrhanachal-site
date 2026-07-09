@@ -89,10 +89,6 @@ export default function ProductDetailClient({ product: p, authorLabel, lang = "e
           ))}
         </div>
 
-        {p.descriptionHtml ? (
-          <div className="desc" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
-        ) : null}
-
         <div className="price-row">
           <span className="now">{priceLabel}</span>
           {variant?.inStock ? (
@@ -142,6 +138,13 @@ export default function ProductDetailClient({ product: p, authorLabel, lang = "e
           </svg>
           Ships free, direct from the press — usually dispatched in 1–2 business days.
         </div>
+
+        {p.descriptionHtml ? (
+          <div className="pdp-desc">
+            <h3>About this sefer</h3>
+            <div className="desc" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
+          </div>
+        ) : null}
 
         <div className="spec">
           <h3>Details</h3>
