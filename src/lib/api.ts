@@ -49,6 +49,7 @@ export type SeforGroup = {
   priceCentsMax: number | null;
   image: { url: string; altText: string | null } | null;
   formats: string[];
+  formatHandles?: { format: string; handle: string }[];
   productHandle: string;
   count: number;
 };

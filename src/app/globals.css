@@ -265,6 +265,9 @@ section.block.alt{ background:var(--cream-2); }
 .pinfo .en-sub{ font-family:var(--display); font-style:italic; color:var(--ink-soft); font-size:1.1rem; margin-bottom:14px; }
 .pinfo .en-sub--big{ font-size:1.4rem; }
 .card .meta{ font-size:.9rem; color:var(--ink-soft); margin-top:4px; }
+.card .fmt-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.card .fmt-chip{ font-family:var(--ui); font-size:.65rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--gold-deep); background:transparent; border:1px solid var(--gold); padding:4px 9px; border-radius:999px; transition:.15s; }
+.card .fmt-chip:hover{ background:var(--gold); color:#fff; }
 .card .foot{ margin-top:auto; padding-top:16px; display:flex; align-items:center; justify-content:space-between; }
 .card .price{ font-family:var(--display); font-size:1.5rem; font-weight:700; color:var(--leather); }
 .card .price s{ color:var(--ink-soft); font-size:.95rem; font-weight:500; margin-inline-start:6px; }
@@ -491,6 +494,12 @@ body{
 .pay .field{ margin-bottom:14px; }
 .pay label{ display:block; font-family:var(--ui); font-size:.74rem; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px; }
 .pay input, .pay select{ width:100%; padding:13px 14px; border:1px solid var(--line); background:#fff; font-family:var(--body); font-size:1rem; }
+/* Shared field-block styling used by signup/login/confirmation lookup forms
+   that live directly inside a .framed panel (no .pay/.inquiry wrapper). */
+.field{ margin-bottom:16px; }
+.field > label{ display:block; font-family:var(--ui); font-size:.74rem; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px; font-weight:600; }
+.field > input, .field > select, .field > textarea{ width:100%; padding:13px 14px; border:1px solid var(--line); background:#fff; font-family:var(--body); font-size:1rem; color:var(--ink); }
+.field > input:focus, .field > select:focus, .field > textarea:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(181,138,60,.15); }
 .pay .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .pay .row3{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:14px; }
 .summary{ background:var(--paper); border:1px solid var(--line); padding:26px; position:sticky; top:104px; }

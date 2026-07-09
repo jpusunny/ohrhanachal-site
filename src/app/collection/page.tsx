@@ -157,7 +157,11 @@ function GroupCard({ group: g, lang }: { group: SeforGroup; lang: Lang }) {
       ? money(g.priceCentsMin)
       : `from ${money(g.priceCentsMin)}`;
   const authorLabel = AUTHOR_LABEL[g.authorGroup];
-  const formatsLine = g.formats.length > 1 ? g.formats.join(" · ") : null;
+  const chips = g.formatHandles && g.formatHandles.length > 1
+    ? g.formatHandles
+    : g.formats.length > 1
+      ? g.formats.map((f) => ({ format: f, handle: g.productHandle }))
+      : [];
   const heMode = lang === "he" && !!g.titleHe;
   return (
     <article className="card">
@@ -182,7 +186,20 @@ function GroupCard({ group: g, lang }: { group: SeforGroup; lang: Lang }) {
             {g.titleHe ? <span className="he-ttl">{g.titleHe}</span> : null}
           </>
         )}
-        {formatsLine ? <span className="meta">{formatsLine}</span> : null}
+        {chips.length > 0 ? (
+          <div className="fmt-chips">
+            {chips.map((c) => (
+              <Link
+                key={c.format + c.handle}
+                className="fmt-chip"
+                href={`/product/${encodeURIComponent(c.handle)}`}
+                aria-label={`View ${g.title} in ${c.format}`}
+              >
+                {c.format}
+              </Link>
+            ))}
+          </div>
+        ) : null}
         <div className="foot">
           <span className="price">{priceLabel}</span>
           <Link className="add" href={`/product/${encodeURIComponent(g.productHandle)}`}>View →</Link>
